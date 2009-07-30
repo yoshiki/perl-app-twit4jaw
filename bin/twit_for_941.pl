@@ -11,7 +11,7 @@ use JSON::Syck;
 use Encode ();
 use Encode::JavaScript::UCS;
 use List::Util qw( shuffle );
-use LWP::Simple;
+use LWP::Simple ();
 use Net::Twitter::Lite;
 
 our $VERSION = 0.01;
@@ -97,10 +97,31 @@ twit_for_941.pl - Twitter bot to read someone a lecture.
    --username Twitter username for bot(required)
    --password Twitter password for bot(required)
    --target   username for target(required)
+   --message  message file
    --pid      pid file
    --interval retry interval
    --version  print version
    --help     brief help message
+
+=head1 EQUIPMENT
+
+=over 8
+
+=item 1
+
+Create new twitter account for bot.
+
+=item 2
+
+Make message file included 1 message per line for tweet.
+
+=item 3
+
+Execute this program!
+
+ % twit_for_941.pl --username=bot_username --password=bot_password --target=your_username start
+
+=back
 
 =head1 VERSION
 
