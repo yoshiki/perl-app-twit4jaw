@@ -7,7 +7,7 @@ use Daemonise;
 use Getopt::Long;
 use Pod::Usage;
 use Path::Class;
-use JSON::Syck;
+use JSON::Syck ();
 use Encode ();
 use Encode::JavaScript::UCS;
 use List::Util qw( shuffle );
