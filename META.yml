@@ -1,0 +1,32 @@
+---
+abstract: ~
+author:
+  - 'Yoshiki Kurihara <kurihara@cpan.org>'
+build_requires:
+  Test::More: 0
+distribution_type: module
+generated_by: 'Module::Install version 0.770'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: twit_for_941
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  Daemonise: 0
+  Encode: 0
+  Encode::JavaScript::UCS: 0
+  Getopt::Long: 0
+  JSON::Syck: 0
+  LWP::Simple: 0
+  List::Util: 0
+  Net::Twitter::Lite: 0
+  Path::Class: 0
+  Pod::Usage: 0
+  perl: 5.8.1
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.01
