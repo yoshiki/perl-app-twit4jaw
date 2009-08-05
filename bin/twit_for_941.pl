@@ -69,6 +69,7 @@ elsif ( $command eq 'start' ) {
             my $text = $last->{ text };
             Encode::from_to( $text, 'JavaScript-UCS', 'utf8' );
             $text =~ s/\\//g;
+            next if $text =~ m/\@/;
             my $nt = Net::Twitter::Lite->new(
                 username => $username,
                 password => $password,
