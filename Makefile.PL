@@ -1,6 +1,6 @@
 use inc::Module::Install;
-name 'twit_for_941';
-all_from 'bin/twit_for_941.pl';
+name 'twit4jaw';
+all_from 'bin/twit4jaw.pl';
 
 requires 'Daemonise';
 requires 'Getopt::Long';
@@ -13,7 +13,7 @@ requires 'List::Util';
 requires 'LWP::Simple';
 requires 'Net::Twitter::Lite';
 
-install_script 'bin/twit_for_941.pl';
+install_script 'bin/twit4jaw.pl';
 
 tests 't/*.t';
 

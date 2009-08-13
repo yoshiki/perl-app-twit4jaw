@@ -23,7 +23,7 @@ GetOptions( \my %opts, 'version', 'help',
 pod2usage( -verbose => 1 ) if $opts{ help };
 pod2usage( -verbose => 99, -sections => 'NAME|VERSION|LICENSE' ) if $opts{ version };
 
-my $pid_file = $opts{ pid }      || '/tmp/twit_for_941.pid';
+my $pid_file = $opts{ pid }      || '/tmp/twit4jaw.pid';
 my $msg_file = $opts{ message }  || '/tmp/twit_msgs.txt';
 my $interval = $opts{ interval } || 60;
 my $username = $opts{ username } || undef;
@@ -88,11 +88,11 @@ elsif ( $command eq 'start' ) {
 
 =head1 NAME
 
-twit_for_941.pl - Twitter bot to read someone a lecture.
+twit4jaw.pl - Twitter bot to read someone a lecture.
 
 =head1 SYNOPSIS
 
- twit_for_941.pl --username=username --password=password --target=username [options] [start|stop]
+ twit4jaw.pl --username=username --password=password --target=username [options] [start|stop]
 
  Options:
    --username Twitter username for bot(required)
@@ -120,7 +120,7 @@ Make message file included 1 message per line for tweet.
 
 Execute this program!
 
- % twit_for_941.pl --username=bot_username --password=bot_password --target=your_username start
+ % twit4jaw.pl --username=bot_username --password=bot_password --target=your_username start
 
 =back
 
