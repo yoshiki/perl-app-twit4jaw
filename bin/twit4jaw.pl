@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 use 5.008001;
-use Daemonise;
+#use Daemonise;
 use Getopt::Long;
 use Pod::Usage;
 use Path::Class;
@@ -25,7 +25,7 @@ pod2usage( -verbose => 99, -sections => 'NAME|VERSION|LICENSE' ) if $opts{ versi
 
 my $pid_file = $opts{ pid }      || '/tmp/twit4jaw.pid';
 my $msg_file = $opts{ message }  || '/tmp/twit_msgs.txt';
-my $interval = $opts{ interval } || 60;
+my $interval = $opts{ interval } || 300;
 my $username = $opts{ username } || undef;
 my $password = $opts{ password } || undef;
 my $target   = $opts{ target }   || undef;
@@ -53,23 +53,25 @@ elsif ( $command eq 'start' ) {
     my @messages;
     while ( 1 ) {
         # load message file if file was updated.
-        if ( !$last_mtime || $last_mtime < (stat($msg_file))[9] ) {
+        if ( !length $last_mtime || $last_mtime < (stat($msg_file))[9] ) {
             my $file = file( $msg_file );
             @messages = $file->slurp( chomp => 1 );
             $last_mtime = (stat($msg_file))[9];
         }
 
         # get target user's timeline
-        my $json = LWP::Simple::get( sprintf $TARGET_USER_TIMELINE_URL_FORMAT, $target );
+        my $timeline_url = sprintf $TARGET_USER_TIMELINE_URL_FORMAT, $target
+        my $json = LWP::Simple::get( $timeline_url ) or die "Invalid target: $target";
         my $data = JSON::Syck::Load( $json );
-        my $last = $data->[0];
+        my $latest_data = $data->[0];
 
         # skip when first time.
-        if ( $last_created_at && $last->{ created_at } ne $last_created_at ) {
-            my $text = $last->{ text };
+        if ( length $last_created_at
+             && $latest_data->{ created_at } ne $last_created_at ) {
+            my $text = $latest_data->{ text };
             Encode::from_to( $text, 'JavaScript-UCS', 'utf8' );
             $text =~ s/\\//g;
-            next if $text =~ m/\@/;
+            next if !length $text || $text =~ m/\@/;
             my $nt = Net::Twitter::Lite->new(
                 username => $username,
                 password => $password,
@@ -81,7 +83,7 @@ elsif ( $command eq 'start' ) {
                         : sprintf( q{@%s %s}, $target, $shuffled_msgs[0] );
             eval { $nt->update( Encode::decode( 'utf8', $message ) ) };
         }
-        $last_created_at = $last->{ created_at };
+        $last_created_at = $latest_data->{ created_at };
         sleep $interval;
     }
 }
