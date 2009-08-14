@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 use 5.008001;
-#use Daemonise;
+use Daemonise;
 use Getopt::Long;
 use Pod::Usage;
 use Path::Class;
@@ -60,7 +60,7 @@ elsif ( $command eq 'start' ) {
         }
 
         # get target user's timeline
-        my $timeline_url = sprintf $TARGET_USER_TIMELINE_URL_FORMAT, $target
+        my $timeline_url = sprintf $TARGET_USER_TIMELINE_URL_FORMAT, $target;
         my $json = LWP::Simple::get( $timeline_url ) or die "Invalid target: $target";
         my $data = JSON::Syck::Load( $json );
         my $latest_data = $data->[0];
