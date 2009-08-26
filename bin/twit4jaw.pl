@@ -42,14 +42,14 @@ elsif ( $command eq 'start' ) {
     pod2usage( 2 ) if !$username || !$password || !$target;
     pod2usage( "$msg_file: No such file or directory." ) unless -e $msg_file;
 
-    Daemonise::daemonise();
+#    Daemonise::daemonise();
 
     open my $fh, '>', $pid_file;
     print $fh $$;
     close $fh;
 
-    my $last_created_at;
-    my $last_mtime;
+    my $last_created_at = '';
+    my $last_mtime = '';
     my @messages;
     while ( 1 ) {
         # load message file if file was updated.
@@ -61,7 +61,11 @@ elsif ( $command eq 'start' ) {
 
         # get target user's timeline
         my $timeline_url = sprintf $TARGET_USER_TIMELINE_URL_FORMAT, $target;
-        my $json = LWP::Simple::get( $timeline_url ) or die "Invalid target: $target";
+        my $json = LWP::Simple::get( $timeline_url );
+        if ( !length $json ) {
+            warning "Invalid target or API limit reached: $target";
+            next;
+        }
         my $data = JSON::Syck::Load( $json );
         my $latest_data = $data->[0];
 
